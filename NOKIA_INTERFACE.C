@@ -9,6 +9,8 @@ struct emp
    char name[10];
    char a[10];
 }e;
+void line(int);
+void line1(int);
 void display();
 void timer();
 void menu(void);
@@ -34,8 +36,6 @@ void box()
 	printf("1 FOR BACK KEY");
 	gotoxy(5,8);
 	printf("5 FOR SELECTION");
-	void line(int);
-	void line1(int);
 	line(8);
 	line(24);
 	line1(30);
@@ -75,6 +75,11 @@ void line1(int x)
 
 void main()
 	{
+	   int g;
+	   char m;
+	   int k=12;
+	   int c;
+	   char ch;
 	   TOP:
 	   textbackground(BLACK);
 	   textcolor(WHITE);
@@ -82,9 +87,7 @@ void main()
 	   box();
 	  // gotoxy(32,16);
 	  // printf("MENU");
-	   int k=12;
-	   int c;
-	   char ch;
+
 	  //  menu();
 	  while(1)
 	{
@@ -147,7 +150,7 @@ void main()
 	Rcalls();
 	break;
        case 3:
-       char m;
+
        contacts();
        kk:m=getch();
        if(m=='1')
@@ -162,7 +165,7 @@ void main()
 	goto TOP;
 	break;
 	case 5:
-	int g;
+
 	timer();
 	g=getch();
 	if(g=='1')
@@ -195,6 +198,7 @@ void menu()
 	}
 void compcontact()
 {
+FILE *p;
 textbackground(BLACK);
 textcolor(WHITE);
 clrscr();
@@ -206,7 +210,7 @@ printf("Enter Name\n");
 gotoxy(32,13);
 printf("Phone Number");
 
-FILE *p;
+
 
    p = fopen("on5.txt", "a");
    gotoxy(32,11);
@@ -227,13 +231,14 @@ void display()
 {
 char ch,ch1;
 int i=0;
+FILE *q;
 textbackground(BLACK);
 textcolor(WHITE);
 clrscr();
 box();
 gotoxy(33,9);
 printf("CONTACTS");
-FILE *q;
+
   q = fopen("on5.txt", "r");
       while(!feof(q))
       {
@@ -316,11 +321,11 @@ void Rcalls()
 void calling()
 {
      int cf;
+     int h,m,s,t;
      textbackground(BLACK);
      textcolor(WHITE);
      clrscr();
      box();
-     int h,m,s,t;
      h=0;
      s=0;
      m=0;
@@ -450,7 +455,10 @@ void inbox1()
 void message()
 {
 	int c,k=12;
+	int j2;
 	char ch;
+	int j1;
+	int j;
 	textbackground(BLACK);
 	textcolor(WHITE);
 	box();
@@ -458,7 +466,9 @@ void message()
 	   box();
 	  while(1)
 	{
-	   top5:textbackground(BLACK);
+
+	   top5:
+	   textbackground(BLACK);
 	   textcolor(WHITE);
 	   box();
 	   clrscr();
@@ -509,7 +519,7 @@ void message()
      switch(c)
      {
      case 1:
-	char j;
+
 	textbackground(BLACK);
 	textcolor(WHITE);
 	clrscr();
@@ -525,7 +535,7 @@ void message()
 	}
 	break;
      case 2:
-	int j1;
+
 	textbackground(BLACK);
 	textcolor(WHITE);
 	clrscr();
@@ -541,7 +551,7 @@ void message()
 	}
 	break;
      case 3:
-     int j2;
+
      textbackground(BLACK);
 	textcolor(WHITE);
 	clrscr();
@@ -564,13 +574,13 @@ void back()
 }
 void timer()
 {
+     struct tm *timeinfo;
+     int h,m,s,i,d,mon,y;
+     time_t rawtime;
      textbackground(BLACK);
      textcolor(WHITE);
      clrscr();
      box();
-     struct tm *timeinfo;
-     int h,m,s,i,d,mon,y;
-     time_t rawtime;
      time(&rawtime);
      timeinfo = localtime(&rawtime);
      h=timeinfo->tm_hour;
