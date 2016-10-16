@@ -25,6 +25,8 @@ void sms();
 void Rcalls(void);
 void calls();
 void calling();
+void take();
+void callme();
 void box()
 {
 	printf("\n");
@@ -75,20 +77,57 @@ void line1(int x)
 
 void main()
 	{
+	   int l;
+	   struct tm *timeinfo;
+	   int h,m1,s,i,d,mon,y;
+	   time_t rawtime;
 	   int g;
 	   char m;
 	   int k=12;
 	   int c;
 	   char ch;
-	   TOP:
-	   textbackground(BLACK);
+
+	textbackground(BLACK);
+	textcolor(WHITE);
+	clrscr();
+	box();
+	gotoxy(41,23);
+	printf("    ");
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	h=timeinfo->tm_hour;
+	s= timeinfo->tm_sec;
+	m1= timeinfo->tm_min;
+
+       while(!kbhit())
+       {
+     if(s>59) {m1=m1+1; s=0; }
+      if(m1>59) { h=h+1; m1=0; }
+      if(h>24) { h=0; m1=0; s=0; }
+      delay(1000);
+      s=s+1;				    // clrscr();
+      gotoxy(36,10);
+      printf("TIME");
+      gotoxy(34,12);
+      printf("%d:%d:%d",h,m,s);
+      d=timeinfo->tm_mday;
+      mon= timeinfo->tm_mon+1;
+      y= timeinfo->tm_year;
+      gotoxy(36,14);
+      printf("DATE");
+      gotoxy(33,16);
+      printf("%d/%d/%d",d,mon,y+1900);
+      }
+
+	  l= getch();
+	  if(l=='3')
+	  {
+	  exit(0);
+	  }
+	  TOP: textbackground(BLACK);
 	   textcolor(WHITE);
 	   clrscr();
 	   box();
-	  // gotoxy(32,16);
-	  // printf("MENU");
-
-	  //  menu();
 	  while(1)
 	{
 	   menu();
@@ -133,6 +172,10 @@ void main()
 	     if(ch=='5')
 	     {
 	       goto end;
+	     }
+	     if(ch=='1')
+	     {
+	     main();
 	     }
 	     if(k<12)
 	       k=12;
@@ -194,7 +237,6 @@ void menu()
 		cprintf("NEW CONTACT");
 		gotoxy(32,20);
 		cprintf("TIME AND DATE");
-
 	}
 void compcontact()
 {
@@ -209,9 +251,6 @@ gotoxy(32,10);
 printf("Enter Name\n");
 gotoxy(32,13);
 printf("Phone Number");
-
-
-
    p = fopen("on5.txt", "a");
    gotoxy(32,11);
    scanf("%s", e.name);
@@ -238,7 +277,6 @@ clrscr();
 box();
 gotoxy(33,9);
 printf("CONTACTS");
-
   q = fopen("on5.txt", "r");
       while(!feof(q))
       {
@@ -252,12 +290,12 @@ printf("CONTACTS");
 }
 void contacts()
 {
-
 textbackground(BLACK);
 textcolor(WHITE);
 clrscr();
 box();
 display();
+take();
 }
 void Rcalls()
 {
@@ -315,10 +353,10 @@ void Rcalls()
      end:
      if(c>0)
      {
-	calling();
+	calling(NULL);
      }
 }
-void calling()
+void calling(int x[])
 {
      int cf;
      int h,m,s,t;
@@ -337,8 +375,10 @@ void calling()
       delay(1000);
       s=s+1;
       gotoxy(32,10);
-      printf("CALLING");
-      gotoxy(32,16);
+      printf("NOW CALLING :");
+      gotoxy(36,11);
+      puts(x);
+      gotoxy(34,16);
       printf("%d:%d:%d",h,m,s);
 	}
 	cf=getch();
@@ -608,4 +648,36 @@ void timer()
       printf("%d/%d/%d",d,mon,y+1900);
 
 }
+}
+void take()
+{
+  char x[20];
+  int flag=0,u;
+  FILE *q;
+  gotoxy(33,21);
+  gets(x);
+  q = fopen("on5.txt", "r");
+      while(!feof(q))
+      {
+       fscanf(q,"%s\n%s\n", e.name,&e.a);
+       u=strcmpi(x,e.name);
+       if(u==0)
+	{
+	  flag=1;
+	}
+      }
+  if(flag==1)
+  {
+    callme(x);
+  }
+  else
+  {
+    gotoxy(33,22);
+    printf("NOT FOUND");
+  }
+}
+void callme(char x[])
+{
+  clrscr();
+  calling(x);
 }
