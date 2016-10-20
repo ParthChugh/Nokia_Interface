@@ -213,9 +213,11 @@ int mainb()
        {
        case 1:
 	sms();
+	goto TOP;
 	break;
        case 2:
 	Rcalls();
+	goto TOP;
 	break;
        case 3:
        contacts();
@@ -232,12 +234,14 @@ int mainb()
 	goto TOP;
 	break;
 	case 5:
-	timer();
+	mp:timer();
 	g=getch();
 	if(g=='1')
 	{
 	goto TOP;
 	}
+	else
+	goto mp;
        }
        getch();
 aaa:
@@ -367,7 +371,7 @@ void Rcalls()
 	     }
 	     if(ch=='1')
 	     {
-	     mainmenu();
+	      goto hp;
 	     }
 	     if(k<12)
 	       k=12;
@@ -379,6 +383,7 @@ void Rcalls()
      {
 	calling(NULL);
      }
+     hp:
 }
 void calling(int x[])
 {
@@ -408,8 +413,9 @@ void calling(int x[])
 	cf=getch();
 	if(cf=='1')
 	{
-	mainmenu();
+	goto qw;
 	}
+     qw:
 }
 void calls()
 {
@@ -471,13 +477,9 @@ void sms()
 	     {
 	       goto end;
 	     }
-	     if(ch=='1')
+	     if(ch=='1'||ch=='3')
 	     {
-	     mainmenu();
-	     }
-	     if(ch=='3')
-	     {
-	     mainb();
+	     goto er;
 	     }
 	     if(k<12)
 	       k=12;
@@ -489,14 +491,18 @@ void sms()
      {
      case 1:
      inb();
+     goto er;
      break;
      case 2:
      inbox1();
+     goto er;
      break;
      case 3:
      message();
+     goto er;
      break;
      }
+     er:
   }
 void inbox()
 {
@@ -538,22 +544,21 @@ printf("OUTBOX");
       }
       }
       ch=getch();
-      if(ch=='1')
+      if(ch=='1'||ch=='3')
       {
-      sms();
-      }
-      else if(ch=='3')
-      {
-      mainb();
+      goto last;
       }
       else
+      {
       outb(ch);
+      }
+      last:
       }
 void outb(char ch)
 {
   FILE *q;
   int i=0,j,k,c=0,a;
-  textbackground(BLACK);
+  here:textbackground(BLACK);
 		textcolor(WHITE);
 		clrscr();
 		box();
@@ -580,17 +585,17 @@ void outb(char ch)
        a=getch();
        if(a=='1')
        {
-       inbox1();
+	inbox1();
        }
        else if(a=='3')
        {
-       mainmenu();
+       goto hd;
+	}
+       else
+       {
+       goto here;
        }
-      else
-      {
-       inbox();
-      }
-
+       hd:
 }
 void inb()
 {char ch,ch1;
@@ -624,10 +629,13 @@ printf("INBOX");
       }
       else if(ch=='3')
       {
-      mainmenu();
+      goto ml;
       }
       else
+      {
       intox(ch);
+      }
+      ml:
 }
 void intox(char ch)
 {
@@ -664,13 +672,13 @@ void intox(char ch)
        }
        else if(a=='3')
        {
-       mainmenu();
+       goto ser;
        }
       else
       {
        inbox();
       }
-
+    ser:
 }
 void message()
 {
@@ -705,7 +713,6 @@ void message()
    gotoxy(32,15);
     printf("Message Sent");
    getch();
-   mainmenu();
   }
 void timer()
 {
