@@ -4,23 +4,34 @@
 #include<dos.h>
 #include<time.h>
 #include<string.h>
+struct ent
+{
+  char a1[10];
+  char a2[10];
+  char a3[10];
+  char a4[10];
+    char a5[10];
+}e1;
 struct emp
 {
    char name[10];
    char a[10];
 }e;
+void mainmenu();
 void line(int);
 void line1(int);
 void display();
 void timer();
 void menu(void);
 void contacts();
-void back();
+void outb();
 void inbox1();
 void compcontact();
 void message();
 void menu1(void);
 void inbox();
+void inb();
+void intox(char);
 void sms();
 void Rcalls(void);
 void calls();
@@ -30,6 +41,8 @@ void callme();
 void box()
 {
 	printf("\n");
+	gotoxy(31,4);
+	printf("NOKIA INTERFACE");
 	gotoxy(5,5);
 	printf("2 FOR UP KEY");
 	gotoxy(5,6);
@@ -75,18 +88,12 @@ void line1(int x)
 	}
 }
 
-void main()
+void mainb()
 	{
 	   int l;
 	   struct tm *timeinfo;
 	   int h,m1,s,i,d,mon,y;
 	   time_t rawtime;
-	   int g;
-	   char m;
-	   int k=12;
-	   int c;
-	   char ch;
-
 	textbackground(BLACK);
 	textcolor(WHITE);
 	clrscr();
@@ -109,7 +116,7 @@ void main()
       gotoxy(36,10);
       printf("TIME");
       gotoxy(34,12);
-      printf("%d:%d:%d",h,m,s);
+      printf("%d:%d:%d",h,m1,s);
       d=timeinfo->tm_mday;
       mon= timeinfo->tm_mon+1;
       y= timeinfo->tm_year;
@@ -118,13 +125,30 @@ void main()
       gotoxy(33,16);
       printf("%d/%d/%d",d,mon,y+1900);
       }
-
-	  l= getch();
+	 l= getch();
 	  if(l=='3')
 	  {
 	  exit(0);
 	  }
-	  TOP: textbackground(BLACK);
+	  else if(l=='1')
+	  {
+	  switch(1)
+	  {
+	  break;
+	  }
+	  }
+	  else
+	  {mainmenu();
+	  }
+	}
+	void mainmenu()
+	{
+	int g;
+	   char m;
+	   int k=12;
+	   int c;
+	   char ch;
+	TOP: textbackground(BLACK);
 	   textcolor(WHITE);
 	   clrscr();
 	   box();
@@ -173,16 +197,15 @@ void main()
 	     {
 	       goto end;
 	     }
-	     if(ch=='1')
+	     if(ch=='1'|| ch=='3')
 	     {
-	     main();
+	     mainb();
 	     }
 	     if(k<12)
 	       k=12;
 	     if(k>20)
 	       k=20;
 	}
-
        end:
        switch(c)
        {
@@ -193,7 +216,6 @@ void main()
 	Rcalls();
 	break;
        case 3:
-
        contacts();
        kk:m=getch();
        if(m=='1')
@@ -208,7 +230,6 @@ void main()
 	goto TOP;
 	break;
 	case 5:
-
 	timer();
 	g=getch();
 	if(g=='1')
@@ -217,7 +238,6 @@ void main()
 	}
        }
        getch();
-
 	}
 void menu()
 {
@@ -251,7 +271,7 @@ gotoxy(32,10);
 printf("Enter Name\n");
 gotoxy(32,13);
 printf("Phone Number");
-   p = fopen("on5.txt", "a");
+   p = fopen("on1.txt", "a");
    gotoxy(32,11);
    scanf("%s", e.name);
    gotoxy(32,14);
@@ -269,7 +289,7 @@ printf("Phone Number");
 void display()
 {
 char ch,ch1;
-int i=0;
+int i=0,c=-1;
 FILE *q;
 textbackground(BLACK);
 textcolor(WHITE);
@@ -277,9 +297,10 @@ clrscr();
 box();
 gotoxy(33,9);
 printf("CONTACTS");
-  q = fopen("on5.txt", "r");
-      while(!feof(q))
+  q = fopen("on1.txt", "r");
+      while(!feof(q) && c<3)
       {
+      c++;
       fscanf(q,"%s\n%s\n", e.name,&e.a);
       gotoxy(34,11+2*i);
       printf("%s",e.name);
@@ -343,7 +364,7 @@ void Rcalls()
 	     }
 	     if(ch=='1')
 	     {
-	     main();
+	     mainmenu();
 	     }
 	     if(k<12)
 	       k=12;
@@ -384,7 +405,7 @@ void calling(int x[])
 	cf=getch();
 	if(cf=='1')
 	{
-	main();
+	mainb();
 	}
 }
 void calls()
@@ -449,7 +470,11 @@ void sms()
 	     }
 	     if(ch=='1')
 	     {
-	     main();
+	     mainmenu();
+	     }
+	     if(ch=='3')
+	     {
+	     mainb();
 	     }
 	     if(k<12)
 	       k=12;
@@ -460,9 +485,13 @@ void sms()
      switch(c)
      {
      case 1:
-      message();
+     inb();
      break;
      case 2:
+     inbox1();
+     break;
+     case 3:
+     message();
      break;
      }
   }
@@ -481,137 +510,200 @@ void inbox()
 }
 void inbox1()
 {
-		textbackground(BLACK);
+char ch,ch1;
+int i=0,c=-1;
+char v=65;
+FILE *q;
+textbackground(BLACK);
+textcolor(WHITE);
+clrscr();
+box();
+gotoxy(33,9);
+printf("OUTBOX");
+
+  q = fopen("from1.txt", "r");
+      while(!feof(q) )
+      {
+      c++;
+      fscanf(q,"%s\n", e1.a1);
+      gotoxy(32,12+i);
+      if(c%5==0)
+      {
+      printf("%c.> %s",v,e1.a1);
+      i=i+2;
+      v++;
+      }
+      }
+      ch=getch();
+      if(ch=='1')
+      {
+      sms();
+      }
+      else if(ch=='3')
+      {
+      mainb();
+      }
+      else
+      outb(ch);
+      }
+void outb(char ch)
+{
+  FILE *q;
+  int i=0,j,k,c=0,a;
+  textbackground(BLACK);
 		textcolor(WHITE);
-		gotoxy(36,10);
-		cprintf("Inbox");
-		gotoxy(32,12);
-		cprintf("VR-00001");
-		gotoxy(32,14);
-		cprintf("VR-00002");
-		gotoxy(32,16);
-		cprintf("VR-00003");
+		clrscr();
+		box();
+  if(ch>=65 && ch<95)
+     ch=ch-64;
+  if(ch>=97)
+     ch=ch-96;
+  k=5*(int)ch;
+  j=k-5;
+  gotoxy(33,9);
+  printf("To:Phone 2");
+  q = fopen("from1.txt", "r");
+      while(!feof(q))
+      {
+       fscanf(q,"%s\n", e1.a1);
+       if(c>=j && c<k)
+       {
+		gotoxy(32,12+i);
+		printf("%s\n",e1.a1);
+		i++;
+	}
+	  c++;
+       }
+       a=getch();
+       if(a=='1')
+       {
+       inbox1();
+       }
+       else if(a=='3')
+       {
+       mainb();
+       }
+      else
+      {
+       inbox();
+      }
+
+}
+void inb()
+{char ch,ch1;
+int i=0,c=-1;
+char v=65;
+FILE *q;
+textbackground(BLACK);
+textcolor(WHITE);
+clrscr();
+box();
+gotoxy(33,9);
+printf("INBOX");
+
+  q = fopen("from2.txt", "r");
+      while(!feof(q) )
+      {
+      c++;
+      fscanf(q,"%s\n", e1.a1);
+      gotoxy(32,12+i);
+      if(c%5==0)
+      {
+      printf("%c.> %s",v,e1.a1);
+      i=i+2;
+      v++;
+      }
+      }
+      ch=getch();
+      if(ch=='1')
+      {
+      sms();
+      }
+      else if(ch=='3')
+      {
+      mainb();
+      }
+      else
+      intox(ch);
+}
+void intox(char ch)
+{
+ FILE *q;
+  int i=0,j,k,c=0,a;
+  textbackground(BLACK);
+		textcolor(WHITE);
+		clrscr();
+		box();
+  if(ch>=65 && ch<95)
+     ch=ch-64;
+  if(ch>=97)
+     ch=ch-96;
+  k=5*(int)ch;
+  j=k-5;
+  gotoxy(33,9);
+  printf("From:Phone 2");
+  q = fopen("from2.txt", "r");
+      while(!feof(q))
+      {
+       fscanf(q,"%s\n", e1.a1);
+       if(c>=j && c<k)
+       {
+		gotoxy(32,12+i);
+		printf("%s\n",e1.a1);
+		i++;
+	}
+	  c++;
+       }
+       a=getch();
+       if(a=='1')
+       {
+       inb();
+       }
+       else if(a=='3')
+       {
+       mainb();
+       }
+      else
+      {
+       inbox();
+      }
+
 }
 void message()
 {
-	int c,k=12;
-	int j2;
-	char ch;
-	int j1;
-	int j;
-	textbackground(BLACK);
-	textcolor(WHITE);
-	box();
-	clrscr();
-	   box();
-	  while(1)
-	{
-
-	   top5:
-	   textbackground(BLACK);
-	   textcolor(WHITE);
-	   box();
-	   clrscr();
-	   box();
-	   inbox1();
-	   textbackground(GREEN);
-	   switch(k)
-	   {
-	      case 12 :
-			 gotoxy(32,12);
-			 cprintf("VR-00001");
-			 c=1;
-			 break;
-	      case 14 :
-			 gotoxy(32,14);
-			 cprintf("VR-00002");
-			 c=2;
-			 break;
-	      case 16 :
-			 gotoxy(32,16);
-			 cprintf("VR-00003");
-			 c=3;
-			 break;
-	   }
-	     ch=getch();
-	     if(ch=='2')
-	      {
-		k+=2;
-	      }
-	     if(ch=='8')
-	     {
-	       k-=2;
-	     }
-	     if(ch=='5')
-	     {
-	       goto end;
-	     }
-	     if(ch=='1')
-	     {
-	     sms();
-	     }
-	     if(k<12)
-	       k=12;
-	     if(k>16)
-	       k=16;
-	}
-     end:
-     switch(c)
-     {
-     case 1:
-
-	textbackground(BLACK);
-	textcolor(WHITE);
-	clrscr();
-	box();
-	gotoxy(34,10);
-	printf("VR-00001");
-	gotoxy(32,12);
-	printf("HELLO BROTHER");
-	j=getch();
-	if(j=='1')
-	{
-	goto top5;
-	}
-	break;
-     case 2:
-
-	textbackground(BLACK);
-	textcolor(WHITE);
-	clrscr();
-	box();
-	gotoxy(34,10);
-	printf("VR-00002");
-	gotoxy(31,12);
-	printf("Saryu Chugh");
-	j1=getch();
-	if(j1=='1')
-	{
-	goto top5;
-	}
-	break;
-     case 3:
-
-     textbackground(BLACK);
-	textcolor(WHITE);
-	clrscr();
-	box();
-	gotoxy(34,10);
-	printf("VR-00003");
-	gotoxy(31,12);
-	printf("Saryu");
-	j2=getch();
-	if(j2=='1')
-	{
-	goto top5;
-	}
-	break;
-     }
-}
-void back()
-{
-
-}
+   FILE *p;
+   textbackground(BLACK);
+   textcolor(WHITE);
+   clrscr();
+   box();
+   p = fopen("from1.txt", "a");
+   gotoxy(32,9);
+   printf("To:PHONE 2");
+   gotoxy(32,12);
+   scanf("%s",e1.a1);
+   gotoxy(32,13);
+   scanf("%s",e1.a2);
+   gotoxy(32,14);
+   scanf("%s",e1.a3);
+   gotoxy(32,15);
+   scanf("%s",e1.a4);
+   gotoxy(32,16);
+   scanf("%s",e1.a5);
+   fprintf(p,"%s\n", e1.a1);
+   fprintf(p,"%s\n", e1.a2);
+   fprintf(p,"%s\n", e1.a3);
+   fprintf(p,"%s\n", e1.a4);
+   fprintf(p,"%s\n", e1.a5);
+   fclose(p);
+   textbackground(BLACK);
+   textcolor(WHITE);
+   clrscr();
+   box();
+   gotoxy(32,15);
+    printf("Message Sent");
+   getch();
+   mainmenu();
+  }
 void timer()
 {
      struct tm *timeinfo;
@@ -656,7 +748,7 @@ void take()
   FILE *q;
   gotoxy(33,21);
   gets(x);
-  q = fopen("on5.txt", "r");
+  q = fopen("on1.txt", "r");
       while(!feof(q))
       {
        fscanf(q,"%s\n%s\n", e.name,&e.a);
