@@ -88,13 +88,13 @@ void line1aa(int x)
 	}
 }
 
-void maina()
+int maina()
 	{
 	   int l;
 	   struct tm *timeinfo;
 	   int h,m1,s,i,d,mon,y;
 	   time_t rawtime;
-	textbackground(BLACK);
+	bs:textbackground(BLACK);
 	textcolor(WHITE);
 	clrscr();
 	boxa();
@@ -132,15 +132,12 @@ void maina()
 	  }
 	  else if(l=='1')
 	  {
-	  switch(1)
-	  {
-	  break;
-	  }
-
+		return 0;
 	  }
 	  else
 	  {mainmenua();
 	  }
+       goto bs;
 	}
 	void mainmenua()
 	{
@@ -200,7 +197,8 @@ void maina()
 	     }
 	     if(ch=='1'|| ch=='3')
 	     {
-	     maina();
+	     //maina();
+           goto aaa;
 	     }
 	     if(k<12)
 	       k=12;
@@ -239,6 +237,7 @@ void maina()
 	}
        }
        getch();
+aaa:
 	}
 void menua()
 {

@@ -88,15 +88,16 @@ void line1(int x)
 	}
 }
 
-void mainb()
-	{
-	   int l;
-	   struct tm *timeinfo;
-	   int h,m1,s,i,d,mon,y;
-	   time_t rawtime;
-	textbackground(BLACK);
+int mainb()
+{
+	int l;
+     struct tm *timeinfo;
+	int h,m1,s,i,d,mon,y;
+	time_t rawtime;
+     as:textbackground(BLACK);
 	textcolor(WHITE);
-	clrscr();
+
+       clrscr();
 	box();
 	gotoxy(41,23);
 	printf("    ");
@@ -125,22 +126,22 @@ void mainb()
       gotoxy(33,16);
       printf("%d/%d/%d",d,mon,y+1900);
       }
-	 l= getch();
+	 l=getch();
 	  if(l=='3')
 	  {
 	  exit(0);
 	  }
-	  else if(l=='1')
+	  if(l=='1')
 	  {
-	  switch(1)
-	  {
-	  break;
-	  }
+	    return 0;
 	  }
 	  else
-	  {mainmenu();
+	  {
+	   mainmenu();
 	  }
-	}
+	  goto  as;
+	 return 0;
+}
 	void mainmenu()
 	{
 	int g;
@@ -199,7 +200,8 @@ void mainb()
 	     }
 	     if(ch=='1'|| ch=='3')
 	     {
-	     mainb();
+	   //  mainb();
+	     goto aaa;
 	     }
 	     if(k<12)
 	       k=12;
@@ -238,6 +240,7 @@ void mainb()
 	}
        }
        getch();
+aaa:
 	}
 void menu()
 {
@@ -405,7 +408,7 @@ void calling(int x[])
 	cf=getch();
 	if(cf=='1')
 	{
-	mainb();
+	mainmenu();
 	}
 }
 void calls()
@@ -581,7 +584,7 @@ void outb(char ch)
        }
        else if(a=='3')
        {
-       mainb();
+       mainmenu();
        }
       else
       {
@@ -621,7 +624,7 @@ printf("INBOX");
       }
       else if(ch=='3')
       {
-      mainb();
+      mainmenu();
       }
       else
       intox(ch);
@@ -661,7 +664,7 @@ void intox(char ch)
        }
        else if(a=='3')
        {
-       mainb();
+       mainmenu();
        }
       else
       {
