@@ -1,6 +1,6 @@
-  #include"phone1.c"
-  #include"phone2.c"
-  #include<stdio.h>
+#include"Phone1.c"
+#include"Phone2.c"
+#include<stdio.h>
   int main()
 {
   int i;
@@ -20,7 +20,7 @@
       mainb();
       break;
     default:
-      printf("Worng Choice");
+      printf("Wrong Choice");
       goto end;
     }
     goto TOP;

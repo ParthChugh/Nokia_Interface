@@ -1,9 +1,9 @@
-  #include<conio.h>
-  #include<stdio.h>
-  #include<stdlib.h>
-  #include<dos.h>
-  #include<time.h>
-  #include<string.h>
+#include<conio.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<dos.h>
+#include<time.h>
+#include<string.h>
   struct ent
 {
   char a1[10];
@@ -22,7 +22,7 @@ e;
 void mainmenu();
 void line(int);
 void line1(int);
-void display();
+int display();
 void timer();
 void menu(void);
 void contacts();
@@ -43,16 +43,28 @@ void callme();
 void box()
 {
   printf("\n");
-  gotoxy(31, 4);
-  printf("NOKIA INTERFACE");
-  gotoxy(5, 5);
+  gotoxy(29, 2);
+  cprintf("NOKIA INTERFACE OF NOKIA 1100");
+  gotoxy(5, 10);
+  printf("->operations");
+  gotoxy(5, 11);
   printf("2 FOR UP KEY");
-  gotoxy(5, 6);
+  gotoxy(5,12);
   printf("8 FOR DOWN KEY");
-  gotoxy(5, 7);
+  gotoxy(5, 13);
   printf("1 FOR BACK KEY");
-  gotoxy(5, 8);
+  gotoxy(5, 14);
   printf("5 FOR SELECTION");
+  gotoxy(5,15);
+  printf("1 FOR END CALL");
+  gotoxy(3,4);
+  printf("->functions like->date and time display");
+  gotoxy(3,5);
+  printf("#composing & sending messages from one phone to other phone");
+  gotoxy(3,6);
+  printf("#saving contacts & search contacts");
+  gotoxy(3,7);
+  printf("#calling timer start & end is displayed are performed");
   line(8);
   line(24);
   line1(30);
@@ -97,7 +109,6 @@ int mainb()
 as:
   textbackground(BLACK);
   textcolor(WHITE);
-
   clrscr();
   box();
   gotoxy(41, 23);
@@ -111,16 +122,16 @@ as:
   while (!kbhit())
   {
     if (s>59) {
-      m1=m1+1; 
+      m1=m1+1;
       s=0;
     }
-    if (m1>59) { 
-      h=h+1; 
+    if (m1>59) {
+      h=h+1;
       m1=0;
     }
-    if (h>24) { 
-      h=0; 
-      m1=0; 
+    if (h>24) {
+      h=0;
+      m1=0;
       s=0;
     }
     delay(1000);
@@ -159,7 +170,7 @@ void mainmenu()
   int k=12;
   int c;
   char ch;
-TOP: 
+TOP:
   textbackground(BLACK);
   textcolor(WHITE);
   clrscr();
@@ -177,7 +188,7 @@ TOP:
       break;
     case 14 :
       gotoxy(32, 14);
-      cprintf("CALLS");
+      cprintf("EMER.CALLS");
       c=2;
       break;
     case 16 :
@@ -267,7 +278,7 @@ void menu()
   gotoxy(32, 12);
   cprintf("SMS");
   gotoxy(32, 14);
-  cprintf("CALLS");
+  cprintf("EMER.CALLS");
   gotoxy(32, 16);
   cprintf("CONTACTS");
   gotoxy(32, 18);
@@ -303,7 +314,7 @@ void compcontact()
   printf("Contact Saved");
   getch();
 }
-void display()
+int display()
 {
   char ch, ch1;
   int i=0, c=-1;
@@ -315,6 +326,8 @@ void display()
   gotoxy(33, 9);
   printf("CONTACTS");
   q = fopen("on1.txt", "r");
+  if(!feof(q))
+  {
   while (!feof(q) && c<3)
   {
     c++;
@@ -325,15 +338,28 @@ void display()
     printf("%s", e.a);
     i++;
   }
+  }
+  if(feof(q)==NULL )
+  {
+  gotoxy(34,16);
+  printf("NO CONTACTS");
+  return 1;
+}
 }
 void contacts()
 {
+  int k;
   textbackground(BLACK);
   textcolor(WHITE);
   clrscr();
   box();
-  display();
+  k=display();
+  if(k==1)
+  {
+  goto fg;
+  }
   take();
+  fg:
 }
 void Rcalls()
 {
@@ -409,16 +435,16 @@ void calling(int x[])
   while (!kbhit())
   {
     if (s>59) {
-      m=m+1; 
+      m=m+1;
       s=0;
     }
-    if (m>59) { 
-      h=h+1; 
+    if (m>59) {
+      h=h+1;
       m=0;
     }
-    if (h>24) { 
-      h=0; 
-      m=0; 
+    if (h>24) {
+      h=0;
+      m=0;
       s=0;
     }
     delay(1000);
@@ -439,11 +465,12 @@ qw:
 }
 void calls()
 {
-
   textbackground(BLACK);
   textcolor(WHITE);
   gotoxy(32, 10);
-  cprintf("Recived Calls");
+  cprintf("Emergency");
+  gotoxy(32,11);
+  cprintf("calls");
   gotoxy(32, 12);
   cprintf("8149404001");
   gotoxy(32, 14);
@@ -602,7 +629,7 @@ here:
   }
   a=getch();
   if (a=='1')
-  {                        
+  {
     goto hd;
     //  inbox1();
   } else if (a=='3')
@@ -668,7 +695,7 @@ void intox(char ch)
   k=5*(int)ch;
   j=k-5;
   gotoxy(33, 9);
-  printf("From:Phone 2");
+  printf("From:Phone 1");
   q = fopen("from2.txt", "r");
   while (!feof(q))
   {
@@ -701,9 +728,9 @@ void message()
   textcolor(WHITE);
   clrscr();
   box();
-  p = fopen("from2.txt", "a");
+  p = fopen("from1.txt", "a");
   gotoxy(32, 9);
-  printf("To:PHONE 2");
+  printf("To:PHONE 1");
   gotoxy(32, 12);
   scanf("%s", e1.a1);
   gotoxy(32, 13);
@@ -746,16 +773,16 @@ void timer()
   while (!kbhit())
   {
     if (s>59) {
-      m=m+1; 
+      m=m+1;
       s=0;
     }
-    if (m>59) { 
-      h=h+1; 
+    if (m>59) {
+      h=h+1;
       m=0;
     }
-    if (h>24) { 
-      h=0; 
-      m=0; 
+    if (h>24) {
+      h=0;
+      m=0;
       s=0;
     }
     delay(1000);

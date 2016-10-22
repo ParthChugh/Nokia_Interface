@@ -22,7 +22,7 @@ e3;
 void mainmenu1();
 void line111(int);
 void line11(int);
-void display1();
+int display1();
 void timer1();
 void menu111(void);
 void contacts1();
@@ -43,16 +43,28 @@ void callme1();
 void box1()
 {
   printf("\n");
-  gotoxy(31, 4);
-  printf("NOKIA INTERFACE");
-  gotoxy(5, 5);
+  gotoxy(29, 2);
+  cprintf("NOKIA INTERFACE OF NOKIA 1100");
+  gotoxy(5, 10);
+  printf("->operations");
+  gotoxy(5, 11);
   printf("2 FOR UP KEY");
-  gotoxy(5, 6);
+  gotoxy(5,12);
   printf("8 FOR DOWN KEY");
-  gotoxy(5, 7);
+  gotoxy(5, 13);
   printf("1 FOR BACK KEY");
-  gotoxy(5, 8);
+  gotoxy(5, 14);
   printf("5 FOR SELECTION");
+  gotoxy(5,15);
+  printf("1 FOR END CALL");
+  gotoxy(3,4);
+  printf("->functions like->date and time display");
+  gotoxy(3,5);
+  printf("#composing & sending messages from one phone to other phone");
+  gotoxy(3,6);
+  printf("#saving contacts & search contacts");
+  gotoxy(3,7);
+  printf("#calling timer start & end is displayed are performed");
   line111(8);
   line111(24);
   line11(30);
@@ -111,16 +123,16 @@ as:
   while (!kbhit())
   {
     if (s>59) {
-      m1=m1+1; 
+      m1=m1+1;
       s=0;
     }
-    if (m1>59) { 
-      h=h+1; 
+    if (m1>59) {
+      h=h+1;
       m1=0;
     }
-    if (h>24) { 
-      h=0; 
-      m1=0; 
+    if (h>24) {
+      h=0;
+      m1=0;
       s=0;
     }
     delay(1000);
@@ -159,7 +171,7 @@ void mainmenu1()
   int k=12;
   int c;
   char ch;
-TOP: 
+TOP:
   textbackground(BLACK);
   textcolor(WHITE);
   clrscr();
@@ -267,7 +279,7 @@ void menu111()
   gotoxy(32, 12);
   cprintf("SMS");
   gotoxy(32, 14);
-  cprintf("CALLS");
+  cprintf("EMER.CALLS");
   gotoxy(32, 16);
   cprintf("CONTACTS");
   gotoxy(32, 18);
@@ -303,7 +315,7 @@ void compcontact1()
   printf("Contact Saved");
   getch();
 }
-void display1()
+int display1()
 {
   char ch, ch1;
   int i=0, c=-1;
@@ -315,6 +327,8 @@ void display1()
   gotoxy(33, 9);
   printf("CONTACTS");
   q = fopen("on3.txt", "r");
+  if(!feof(q))
+  {
   while (!feof(q) && c<3)
   {
     c++;
@@ -325,15 +339,29 @@ void display1()
     printf("%s", e3.re);
     i++;
   }
+  }
+  if(feof(q)==NULL )
+  {
+  gotoxy(34,16);
+  printf("NO CONTACTS");
+  return 1;
+
+  }
 }
 void contacts1()
 {
+  int k;
   textbackground(BLACK);
   textcolor(WHITE);
   clrscr();
   box1();
-  display1();
+  k=display1();
+  if(k==1)
+  {
+  goto gr;
+  }
   take1();
+  gr:
 }
 void Rcalls1()
 {
@@ -409,16 +437,16 @@ void calling1(int x[])
   while (!kbhit())
   {
     if (s>59) {
-      m=m+1; 
+      m=m+1;
       s=0;
     }
-    if (m>59) { 
-      h=h+1; 
+    if (m>59) {
+      h=h+1;
       m=0;
     }
-    if (h>24) { 
-      h=0; 
-      m=0; 
+    if (h>24) {
+      h=0;
+      m=0;
       s=0;
     }
     delay(1000);
@@ -443,7 +471,9 @@ void calls1()
   textbackground(BLACK);
   textcolor(WHITE);
   gotoxy(32, 10);
-  cprintf("Recived Calls");
+  cprintf("EMERGENCY");
+  gotoxy(32,11);
+  cprintf("CALLS");
   gotoxy(32, 12);
   cprintf("8149404001");
   gotoxy(32, 14);
@@ -701,7 +731,7 @@ void message1()
   textcolor(WHITE);
   clrscr();
   box1();
-  p = fopen("from1.txt", "a");
+  p = fopen("from2.txt", "a");
   gotoxy(32, 9);
   printf("To:PHONE 2");
   gotoxy(32, 12);
